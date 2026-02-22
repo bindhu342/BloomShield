@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BloomShield | Protection in storage, Privacy in search</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --neon-blue: #3b82f6; --darkest: #010409; }
+        body { font-family: 'Space Grotesk', sans-serif; background-color: var(--darkest); color: #ffffff; }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        .glass { background: rgba(3, 7, 18, 0.98); backdrop-filter: blur(20px); border: 1px solid rgba(59, 130, 246, 0.3); box-shadow: 0 15px 35px rgba(0,0,0,0.8); }
+        .cyber-grid { background-image: linear-gradient(to right, #080c14 1px, transparent 1px), linear-gradient(to bottom, #080c14 1px, transparent 1px); background-size: 50px 50px; }
+        .scanline { width: 100%; height: 2px; background: var(--neon-blue); opacity: 0.2; position: absolute; animation: move 4s linear infinite; }
+        @keyframes move { 0% { top: 0% } 100% { top: 100% } }
+        .glow-text-blue { text-shadow: 0 0 15px rgba(59, 130, 246, 0.6); }
+        input { background-color: #000000 !important; border: 1px solid #1e293b !important; color: #60a5fa !important; }
+        input[type="file"]::file-selector-button { background: #1e293b; color: white; border: 1px solid #3b82f6; padding: 8px 16px; border-radius: 8px; cursor: pointer; }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-8 relative overflow-x-hidden">
+    <div class="fixed inset-0 cyber-grid -z-10"></div>
+
+    <header class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center mb-10 gap-4">
+        <div class="flex items-center gap-3">
+            <div class="p-3 bg-blue-950 rounded-xl border border-blue-500">
+                <svg class="text-blue-400 w-8 h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M3 5v14a9 3 0 0 0 18 0V5"></path></svg>
+            </div>
+            <div>
+                <h1 class="text-3xl font-bold tracking-tighter uppercase italic glow-text-blue">Bloom<span class="text-blue-500">Shield</span></h1>
+                <div class="flex items-center gap-2">
+                    <p class="text-[10px] mono text-blue-800 tracking-[0.2em] font-bold uppercase">Encrypted Dataset Search</p>
+                    <span class="px-2 py-0.5 rounded text-[9px] bg-green-500/20 text-green-400 border border-green-500/50 mono">STATUS: ACTIVE</span>
+                </div>
+            </div>
+        </div>
+        <a href="/" class="flex items-center gap-2 bg-blue-600/10 border border-blue-500 text-blue-400 px-6 py-2 rounded-xl font-bold hover:bg-blue-600 hover:text-white transition-all">
+            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg> Bloom Filter
+        </a>
+    </header>
+
+    <main class="max-w-4xl mx-auto">
+        <div id="timerDiv" class="mb-6 {% if file_active %}block{% else %}hidden{% endif %}">
+            <div class="glass p-4 rounded-2xl border-blue-500/50 flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <svg class="text-blue-400 w-5 h-5 animate-pulse" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    <div>
+                        <p class="text-[10px] mono text-slate-500 uppercase">Secure Session Remaining</p>
+                        <p id="timer" class="text-xl font-bold text-blue-400 mono">02:00</p>
+                    </div>
+                </div>
+                <div class="text-[9px] mono text-blue-900 uppercase font-black">Auto-Deletion Active</div>
+            </div>
+        </div>
+
+        <section class="glass p-8 rounded-3xl relative overflow-hidden">
+            <div class="scanline"></div>
+            <div class="flex items-center gap-4 mb-8">
+                <div class="p-3 bg-blue-500/10 rounded-full text-blue-400">
+                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                </div>
+                <h2 class="text-xl font-bold uppercase tracking-widest text-blue-400">Secure Upload & Analysis</h2>
+            </div>
+            
+            <form method="POST" action="/dataset" enctype="multipart/form-data" class="space-y-6">
+                <div class="border-2 border-dashed {% if file_active %}border-blue-500/50 bg-blue-500/5{% else %}border-slate-800 bg-black/50{% endif %} rounded-2xl p-8 text-center transition-all">
+                    <input type="file" name="file" {% if not file_active %}required{% endif %} accept=".txt,.csv,.pdf" class="w-full text-sm text-slate-500">
+                    <p class="text-[10px] text-slate-500 mt-2 mono uppercase">
+                        {% if file_active %}● Dataset is currently active in secure memory{% else %}Upload .txt, .pdf, or .csv dataset{% endif %}
+                    </p>
+                </div>
+
+                <div class="space-y-2">
+                    <label class="text-[10px] text-blue-700 font-bold uppercase ml-1">Search Query</label>
+                    <input type="text" name="word" placeholder="Enter word to search..." required
+                        class="w-full rounded-xl p-4 text-sm outline-none transition-all">
+                </div>
+
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-black py-4 rounded-xl transition-all uppercase tracking-widest shadow-lg shadow-blue-900/20">
+                    Execute Encrypted Search
+                </button>
+            </form>
+
+            {% if dataset_result %}
+            <div class="mt-10 pt-8 border-t border-slate-900 grid md:grid-cols-2 gap-6">
+                <div class="bg-black/40 p-5 rounded-2xl border border-blue-900/30">
+                    <div class="text-[10px] text-slate-500 mb-2 mono font-bold uppercase">Search Status</div>
+                    <div class="text-2xl font-bold text-blue-400 glow-text-blue">{{ dataset_result | escape }}</div>
+                </div>
+                <div class="bg-black/40 p-5 rounded-2xl border border-yellow-900/20">
+                    <div class="text-[10px] text-slate-500 mb-2 mono font-bold uppercase">Encryption Indices</div>
+                    <div class="mono text-xs text-yellow-500 break-all">{{ upload_indices | tojson if upload_indices else 'N/A' }}</div>
+                </div>
+            </div>
+            {% endif %}
+        </section>
+    </main>
+
+    <script>
+        let secondsLeft = {{ remaining_time | default(0) }};
+        if (secondsLeft > 0) {
+            const timerEl = document.getElementById('timer');
+            if (timerEl) {
+                const interval = setInterval(() => {
+                    secondsLeft--;
+                    const mins = Math.floor(secondsLeft / 60);
+                    const secs = secondsLeft % 60;
+                    timerEl.innerText = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+                    if (secondsLeft <= 0) {
+                        clearInterval(interval);
+                        alert("Session Expired. File deleted.");
+                        window.location.reload();
+                    }
+                }, 1000);
+            }
+        }
+    </script>
+</body>
+</html>
