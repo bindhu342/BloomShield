@@ -275,7 +275,7 @@ This project was developed during **Hack-A-League 4.0**, a 24-hour hackathon cha
 
 ### Team Members
 - **Jyothi Lakshmi V** - Full Stack Development & Architecture
-- **Binshu R** - Backend Development & Security Implementation
+- **Bindhu R** - Backend Development & Security Implementation
 - **Spoorthi S** - Frontend Development & UI/UX Design
 
 ### Hackathon Details
